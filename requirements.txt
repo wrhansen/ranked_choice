@@ -1,0 +1,4 @@
+Django<4.3  # Latest Django 4.2.x LTS
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
+pillow==10.3.0

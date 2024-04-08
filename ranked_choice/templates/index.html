@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+{% load tz %}
+
+{% block content %}
+<h1>Welcome to Ranked Choice Voting!</h1>
+
+<h2>Current Votes:</h2>
+
+{% for vote in votes %}
+    <div class="card m-5" style="width: 20rem;">
+        <div class="card-header">
+            <h5 class="card-title">
+                {{ vote.name }}
+                <a href="{% url 'ranked_choice:details' pk=vote.pk %}" class="btn btn-primary float-end"><i class="bi-arrow-right-circle-fill"></i></a>
+            </h5>
+
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <b>Status:</b> <span class="badge {{ vote.get_css_status_class }}">{{ vote.status_label }}</span>
+            </li>
+        </ul>
+        <div class="card-footer text-body-secondary">
+            <b>Last updated:</b> {{ vote.modified }}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

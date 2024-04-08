@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+{% load tz %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row align-items-center p-4">
+        <h1>{{ vote.name }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-2 text-bg-dark text-end rounded-top">
+            <strong>Status</strong>
+        </div>
+        <div class="col-3 align-self-end text-end">
+            <span class="badge {{ vote.get_css_status_class }}">{{ vote.status_label }}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 text-bg-dark text-end">
+            <strong>Created</strong>
+        </div>
+        <div class="col-3 text-end">{{ vote.created }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 text-bg-dark text-end rounded-bottom">
+            <strong>Modified</strong>
+        </div>
+        <div class="col-3 text-end">{{ vote.modified }}</div>
+    </div>
+</div>
+
+{% endblock %}
