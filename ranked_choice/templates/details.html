@@ -10,7 +10,7 @@
         <h1>{{ vote.name }}</h1>
     </div>
     <div class="row">
-        <div class="col-2 text-bg-dark text-end rounded-top">
+        <div class="col-1 text-bg-dark text-end rounded-top">
             <strong>Status</strong>
         </div>
         <div class="col-3 align-self-end text-end">
@@ -19,18 +19,29 @@
     </div>
 
     <div class="row">
-        <div class="col-2 text-bg-dark text-end">
+        <div class="col-1 text-bg-dark text-end">
             <strong>Created</strong>
         </div>
         <div class="col-3 text-end">{{ vote.created }}</div>
     </div>
 
     <div class="row">
-        <div class="col-2 text-bg-dark text-end rounded-bottom">
+        <div class="col-1 text-bg-dark text-end rounded-bottom">
             <strong>Modified</strong>
         </div>
         <div class="col-3 text-end">{{ vote.modified }}</div>
     </div>
+</div>
+
+<div class="container">
+    <ul class="list-group shadow-sm">
+        {% for candidate in vote.vote_candidates.all %}
+            <li class="list-group-item shadow-sm">
+                <img class="img-thumbnail" width="50" height="50" src="{{candidate.image.url}}"/>
+                {{ candidate.name }}
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock %}

@@ -3,6 +3,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Vote(models.Model):
+    """
+    A ranked choice voting session
+    """
 
     class Status(models.TextChoices):
         CREATED = "CR", _("Created")
@@ -17,9 +20,11 @@ class Vote(models.Model):
     status = models.CharField(
         max_length=2, choices=Status.choices, default=Status.CREATED
     )
-    results = models.JSONField()
+    results = models.JSONField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    vote_candidates = models.ManyToManyField("Candidate")
 
     def get_css_status_class(self):
         statuses = {
@@ -35,10 +40,27 @@ class Vote(models.Model):
 
 
 class Candidate(models.Model):
+    """
+    The thing to rank in a vote
+    """
+
     name = models.CharField(max_length=255)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="candidates")
+
+    def __str__(self):
+        return f"<Candidate name={self.name} image={self.image.path}>"
 
 
 class UserVote(models.Model):
-    vote = models.ForeignKey(Vote, on_delete=models.CASCADE)
-    user_candidates = models.JSONField()
+    """
+    The votes, unique per IP Address
+    """
+
+    vote = models.ForeignKey(Vote, on_delete=models.CASCADE, related_name="user_votes")
+    ip_address = models.CharField(max_length=128)
+    user_candidates = models.JSONField(null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["ip_address", "vote"]),
+        ]
